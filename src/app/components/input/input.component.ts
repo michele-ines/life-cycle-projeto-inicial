@@ -1,24 +1,39 @@
+import { Item } from 'src/app/interfaces/iItem';
 import { ListaDeCompraService } from './../../service/lista-de-compra.service';
-import { Component, OnInit } from '@angular/core';
+import {
+  Component,
+  Input,
+  OnChanges,
+  OnInit,
+  SimpleChanges,
+} from '@angular/core';
 
 @Component({
   selector: 'app-input',
   templateUrl: './input.component.html',
-  styleUrls: ['./input.component.css']
+  styleUrls: ['./input.component.css'],
 })
-export class InputComponent implements OnInit {
-  valorItem! : string
+export class InputComponent implements OnInit, OnChanges {
+  @Input() itemQueVaiSerEditado!: Item;
 
-  constructor(private listaDeCompraService: ListaDeCompraService ) { }
+  valorItem!: string;
+
+  constructor(private listaDeCompraService: ListaDeCompraService) { }
 
   ngOnInit(): void { }
 
-  adicionarItem(){
+  ngOnChanges(changes: SimpleChanges) {
+    if (!changes['itemQueVaiSerEditado'].firstChange) {
+      this.valorItem = this.itemQueVaiSerEditado?.nome;
+    }
+  }
+
+  adicionarItem() {
     this.listaDeCompraService.adicionarItemNaLista(this.valorItem);
     this.limparCampo();
   }
 
-  limparCampo(){
+  limparCampo() {
     this.valorItem = '';
   }
 }

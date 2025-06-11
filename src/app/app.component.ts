@@ -11,6 +11,9 @@ export class AppComponent  implements OnInit{
   title = 'app-lista-de-compras';
 
   listaDeCompras! : Array<Item>;
+  itemParaSerEditado! : Item;
+
+
   constructor(private listaService: ListaDeCompraService) { }
 
   ngOnInit(): void {
@@ -19,6 +22,6 @@ export class AppComponent  implements OnInit{
   }
 
   editarItem(item: Item): void {
-    console.log(item);
+    this.itemParaSerEditado = item;
   }
 }
